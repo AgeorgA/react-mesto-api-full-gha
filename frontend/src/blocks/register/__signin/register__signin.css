@@ -1,0 +1,15 @@
+.register__signin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 15px;
+}
+.register__signin p {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(255, 255, 255, 1);
+  text-align: center;
+  margin-right: 12px;
+}

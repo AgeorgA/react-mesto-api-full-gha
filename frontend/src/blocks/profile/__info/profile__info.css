@@ -1,0 +1,31 @@
+.profile__info {
+  display: grid;
+  margin-left: 30px;
+  grid-template-columns: 294px 24px;
+  grid-template-rows: 39px 18px;
+  gap: 16px 18px;
+  grid-template-areas:
+    'profile__name profile__edit-button'
+    'profile__about-self profile__about-self';
+}
+
+@media screen and (max-width: 767px) {
+  .profile__info {
+    margin-left: 26px;
+    gap: 14px 10px;
+    grid-template-columns: 189px 18px;
+    grid-template-rows: 26px 14px;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .profile__info {
+    width: 282px;
+    margin-left: 0;
+    grid-template-columns: 235px auto;
+    text-align: center;
+    grid-template-areas:
+      'profile__name profile__edit-button'
+      'profile__about-self profile__about-self';
+  }
+}

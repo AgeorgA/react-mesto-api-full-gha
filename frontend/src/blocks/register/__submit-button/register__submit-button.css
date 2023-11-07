@@ -1,0 +1,32 @@
+.register__submit-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 358px;
+  height: 50px;
+  margin-top: 216px;
+  padding: 0;
+  border-radius: 2px;
+  border: 0;
+  background-color: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  cursor: pointer;
+  transition: 0.5s all;
+}
+
+.register__submit-button:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  transition: 0.5s;
+}
+
+@media screen and (max-width: 580px) {
+  .register__submit-button {
+    max-height: 46px;
+    font-size: 14px;
+    line-height: 17px;
+    margin-top: 15px;
+  }
+}
