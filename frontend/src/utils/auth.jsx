@@ -1,4 +1,5 @@
-export const BASE_URL = 'https://auth.nomoreparties.co';
+// export const BASE_URL = 'https://api.aea.nomoredomainsmonster.ru/';
+export const BASE_URL = 'http://localhost:3000';
 
 const getResponseData = res => {
   if (res.ok) {

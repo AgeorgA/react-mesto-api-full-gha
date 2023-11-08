@@ -1,3 +1,5 @@
+import React, { useRef } from 'react';
+
 function PopupWithForm(props) {
   return (
     <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`}>

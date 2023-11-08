@@ -1,3 +1,5 @@
+import React, { useRef } from 'react';
+
 function ImagePopup({ card, isOpen, onClose }) {
   return (
     <div className={`popup popup_hover-black popup_type_image ${isOpen ? 'popup_opened' : ''}`}>

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
-import EditAvatarPopup from './EditAvatarPopup';
-import EditProfilePopup from './EditProfilePopup';
-import AddPlacePopup from './AddPlacePopup';
-import ImagePopup from './ImagePopup';
-import ConfirmDeletePopup from './ConfirmDeletePopup';
-import api from '../utils/Api';
-import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import Header from './Header.jsx';
+import Main from './Main.jsx';
+import Footer from './Footer.jsx';
+import EditAvatarPopup from './EditAvatarPopup.jsx';
+import EditProfilePopup from './EditProfilePopup.jsx';
+import AddPlacePopup from './AddPlacePopup.jsx';
+import ImagePopup from './ImagePopup.jsx';
+import ConfirmDeletePopup from './ConfirmDeletePopup.jsx';
+import api from '../utils/Api.jsx';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.jsx';
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import Login from './Login.js';
-import Register from './Register.js';
-import ProtectedRoute from './ProtectedRoute.js';
-import InfoTooltip from './InfoTooltip.js';
-import * as auth from '../utils/auth.js';
+import Login from './Login.jsx';
+import Register from './Register.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
+import InfoTooltip from './InfoTooltip.jsx';
+import * as auth from '../utils/auth.jsx';
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);

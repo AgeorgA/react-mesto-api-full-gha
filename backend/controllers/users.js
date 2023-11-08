@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { ValidationError, CastError } = require('mongoose').Error;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -6,6 +8,10 @@ const statusCodes = require('../utils/constants').HTTP_STATUS;
 const NotFoundError = require('../errors/NotFound');
 const BadRequestError = require('../errors/BadRequest');
 const ConflictError = require('../errors/Conflict');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
+
+const tokenJwt = NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret';
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -45,10 +51,10 @@ module.exports.getUserById = (req, res, next) => {
   const { userId } = req.params;
   User.findById(userId)
     .orFail(new NotFoundError('NotFound'))
-    .then((user) => res.status(statusCodes.OK).send({ data: user }))
+    .then((user) => res.status(statusCodes.OK).send(user))
     .catch((error) => {
       if (error instanceof CastError) {
-        return next(new BadRequestError('Передан не валидный id'));
+        return next(new BadRequestError('Передан невалидный id'));
       }
       return next(error);
     });
@@ -57,8 +63,8 @@ module.exports.getUserById = (req, res, next) => {
 function updateUser(req, res, newData, next) {
   const userId = req.user._id;
   User.findByIdAndUpdate(userId, newData, { new: true, runValidators: true })
-    .orFail(new Error('NotFound'))
-    .then((user) => res.status(statusCodes.CREATED).send({ data: user }))
+    .orFail(new NotFoundError('NotFound'))
+    .then((user) => res.status(statusCodes.CREATED).send(user))
     .catch((error) => {
       if (error instanceof CastError) {
         return next(
@@ -73,7 +79,7 @@ function updateUser(req, res, newData, next) {
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.status(statusCodes.OK).send({ data: users }))
+    .then((users) => res.status(statusCodes.OK).send(users))
     .catch(next);
 };
 
@@ -81,7 +87,7 @@ module.exports.getCurrentUser = (req, res, next) => {
   const userId = req.user._id;
   User.findById(userId)
     .orFail(new NotFoundError('NotFound'))
-    .then((user) => res.status(statusCodes.OK).send({ data: user }))
+    .then((user) => res.status(statusCodes.OK).send(user))
     .catch(next);
 };
 
@@ -90,7 +96,7 @@ module.exports.login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       res.send({
-        token: jwt.sign({ _id: user._id }, 'secret-value', {
+        token: jwt.sign({ _id: user._id }, tokenJwt, {
           expiresIn: '7d',
         }),
       });
