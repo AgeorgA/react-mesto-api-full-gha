@@ -10,9 +10,13 @@ export class Api {
     return Promise.reject(`Ошибка: ${res.status}`);
   }
 
+  _request(url, options) {
+    return fetch(url, options).then(this.getResponseData);
+  }
+
   getInitialCards() {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this._baseUrl}/cards`, {
+    return this._request(`${this._baseUrl}/cards`, {
       headers: {
         authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -22,7 +26,7 @@ export class Api {
 
   createCard({ name, link }) {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this._baseUrl}/cards`, {
+    return this._request(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
         authorization: `Bearer ${token}`,
@@ -34,7 +38,7 @@ export class Api {
 
   getUserInfo() {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this._baseUrl}/users/me`, {
+    return this._request(`${this._baseUrl}/users/me`, {
       headers: {
         authorization: `Bearer ${token}`
       }
@@ -43,7 +47,7 @@ export class Api {
 
   setUserInfo({ name, about }) {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this._baseUrl}/users/me`, {
+    return this._request(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${token}`,
@@ -55,7 +59,7 @@ export class Api {
 
   setUserAvatar({ avatar }) {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
+    return this._request(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
         authorization: `Bearer ${token}`,
@@ -67,7 +71,7 @@ export class Api {
 
   toggleLike(cardId, like) {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+    return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: like ? 'PUT' : 'DELETE',
       headers: {
         authorization: `Bearer ${token}`,
@@ -78,7 +82,7 @@ export class Api {
 
   removeCard(cardId) {
     const token = localStorage.getItem('jwt');
-    return fetch(`${this._baseUrl}/cards/${cardId}`, {
+    return this._request(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
         authorization: `Bearer ${token}`

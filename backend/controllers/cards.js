@@ -6,9 +6,10 @@ const BadRequestError = require('../errors/BadRequest');
 const ForbiddenError = require('../errors/Forbidden');
 
 module.exports.createCard = (req, res, next) => {
+  const owner = req.user._id;
   const { name, link } = req.body;
-  Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.status(statusCodes.CREATED).send({ data: card }))
+  Card.create({ name, link, owner })
+    .then((card) => res.status(statusCodes.CREATED).send(card))
     .catch((error) => {
       if (error instanceof ValidationError) {
         return next(
@@ -33,7 +34,7 @@ module.exports.deleteCard = (req, res, next) => {
           ),
         );
       }
-      return Card.deleteOne(card).then(() => res.status(statusCodes.OK).send({ data: card }));
+      return Card.deleteOne(card).then(() => res.status(statusCodes.OK).send(card));
     })
     .catch((error) => {
       if (error instanceof CastError) {
@@ -46,7 +47,7 @@ module.exports.deleteCard = (req, res, next) => {
 function changeLikeCardStatus(req, res, likeStatus, next) {
   Card.findByIdAndUpdate(req.params.cardId, likeStatus, { new: true })
     .orFail(new NotFoundError('NotFound'))
-    .then((card) => res.status(statusCodes.OK).send({ data: card }))
+    .then((card) => res.status(statusCodes.OK).send(card))
     .catch((error) => {
       if (error instanceof CastError) {
         return next(
@@ -61,7 +62,7 @@ function changeLikeCardStatus(req, res, likeStatus, next) {
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.status(statusCodes.OK).send({ data: cards }))
+    .then((cards) => res.status(statusCodes.OK).send(cards))
     .catch(next);
 };
 
