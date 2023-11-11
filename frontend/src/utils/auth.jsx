@@ -25,7 +25,12 @@ export const authorize = (email, password) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ email, password })
-  }).then(getResponseData);
+  })
+    .then(getResponseData)
+    .then(data => {
+      localStorage.setItem('jwt', data.token);
+      return data;
+    });
 };
 export const checkToken = token => {
   return fetch(`${BASE_URL}/users/me`, {

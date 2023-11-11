@@ -37,7 +37,7 @@ function App() {
       navigate('/', { replace: true });
       return;
     }
-    navigate('/sign-up', { replace: true });
+    navigate('/signup', { replace: true });
   }, [loggedIn]);
 
   useEffect(() => {
@@ -85,7 +85,7 @@ function App() {
       .then(data => {
         if (data) {
           handleRegStatusClick(true);
-          navigate('/sign-in', { replace: true });
+          navigate('/signin', { replace: true });
         }
       })
       .catch(err => {
@@ -98,7 +98,7 @@ function App() {
     localStorage.removeItem('token');
     setLoggedIn(false);
     setEmail('');
-    navigate('/sign-in', { replace: true });
+    navigate('/signin', { replace: true });
   };
 
   useEffect(() => {
@@ -218,7 +218,7 @@ function App() {
         <Routes>
           <Route
             path="/*"
-            element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/sign-in" replace />}
+            element={loggedIn ? <Navigate to="/" replace /> : <Navigate to="/signin" replace />}
           />
           <Route
             path="/"
@@ -237,8 +237,8 @@ function App() {
               />
             }
           />
-          <Route path="/sign-up" element={<Register onRegister={handleRegister} />} />
-          <Route path="/sign-in" element={<Login onLogin={handleLogin} />} />
+          <Route path="/signup" element={<Register onRegister={handleRegister} />} />
+          <Route path="/signin" element={<Login onLogin={handleLogin} />} />
         </Routes>
 
         {loggedIn && <Footer />}

@@ -46,7 +46,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "predeploy": "yarn run build",
-    "deploy": "yarn run build && scp -r ./dist/* obi@51.250.28.113:/home/obi/mesto-frontend/"
+    "deploy": "yarn run build && scp -r ./dist/* obi@51.250.22.76:/home/obi/react-mesto-api-full-gha/frontend/"
   },
   "eslintConfig": {
     "extends": [
