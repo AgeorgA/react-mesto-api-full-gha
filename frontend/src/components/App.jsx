@@ -45,14 +45,14 @@ function App() {
   }, []);
 
   const handleTokenCheck = () => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (localStorage.getItem('jwt')) {
+      const token = localStorage.getItem('jwt');
       auth
         .checkToken(token)
         .then(data => {
           if (data) {
             setLoggedIn(true);
-            setEmail(data.data.email);
+            setEmail(data.email);
             navigate('/', { replace: true });
           }
         })
@@ -67,7 +67,7 @@ function App() {
       .authorize(email, password)
       .then(data => {
         if (data.token) {
-          localStorage.setItem('token', data.token);
+          localStorage.setItem('jwt', data.token);
           setLoggedIn(true);
           setEmail(email);
           navigate('/', { replace: true });
@@ -95,7 +95,7 @@ function App() {
   };
 
   const handleSignOut = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('jwt');
     setLoggedIn(false);
     setEmail('');
     navigate('/signin', { replace: true });
