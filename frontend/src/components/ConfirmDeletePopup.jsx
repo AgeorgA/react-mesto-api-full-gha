@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
-
+import React, { useEffect } from 'react';
 import PopupWithForm from './PopupWithForm.jsx';
+
 function ConfirmDeletePopup({ card, isOpen, onClose, onCardDelete }) {
   function handleSubmit(e) {
     e.preventDefault();

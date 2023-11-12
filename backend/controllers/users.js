@@ -1,5 +1,4 @@
 require('dotenv').config();
-
 const { ValidationError, CastError } = require('mongoose').Error;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -62,7 +61,7 @@ function updateUser(req, res, newData, next) {
   const userId = req.user._id;
   User.findByIdAndUpdate(userId, newData, { new: true, runValidators: true })
     .orFail(new NotFoundError('NotFound'))
-    .then((user) => res.status(statusCodes.CREATED).send(user))
+    .then((user) => res.status(statusCodes.OK).send(user))
     .catch((error) => {
       if (error instanceof CastError) {
         return next(

@@ -3,14 +3,23 @@ import React, { useContext } from 'react';
 import Card from './Card.jsx';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.jsx';
 
-function Main(props, { cards }) {
+function Main({
+  onEditProfile,
+  onAddPlace,
+  onEditAvatar,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  onConfirmDelete,
+  cards
+}) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
     <main className="content">
       <section className="profile content__profile">
         <button
-          onClick={props.onEditAvatar}
+          onClick={onEditAvatar}
           aria-label="Редактировать"
           type="button"
           className="profile__edit-avatar-button button"
@@ -21,7 +30,7 @@ function Main(props, { cards }) {
         <div className="profile__info">
           <h1 className="profile__name">{currentUser.name}</h1>
           <button
-            onClick={props.onEditProfile}
+            onClick={onEditProfile}
             aria-label="Редактировать"
             type="button"
             className="profile__edit-button button"
@@ -29,7 +38,7 @@ function Main(props, { cards }) {
           <p className="profile__about-self">{currentUser.about}</p>
         </div>
         <button
-          onClick={props.onAddPlace}
+          onClick={onAddPlace}
           type="button"
           aria-label="Добавить"
           className="profile__add-button button"
@@ -41,10 +50,10 @@ function Main(props, { cards }) {
           <Card
             key={card._id}
             card={card}
-            onCardClick={props.onCardClick}
-            onCardLike={props.onCardLike}
-            onCardDelete={props.onCardDelete}
-            onConfirmDelete={props.onConfirmDelete}
+            onCardClick={onCardClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
+            onConfirmDelete={onConfirmDelete}
           />
         ))}
       </section>

@@ -11,7 +11,7 @@ export class Api {
   }
 
   _request(url, options) {
-    return fetch(url, options).then(this.getResponseData);
+    return fetch(url, options).then(this._getResponseData);
   }
 
   getInitialCards() {

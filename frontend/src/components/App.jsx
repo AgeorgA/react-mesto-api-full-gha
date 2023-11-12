@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
@@ -33,16 +33,16 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    handleTokenCheck();
+  }, []);
+
+  useEffect(() => {
     if (loggedIn) {
       navigate('/', { replace: true });
       return;
     }
     navigate('/signup', { replace: true });
   }, [loggedIn]);
-
-  useEffect(() => {
-    handleTokenCheck();
-  }, []);
 
   const handleTokenCheck = () => {
     if (localStorage.getItem('jwt')) {
@@ -152,6 +152,10 @@ function App() {
     setIsInfoTooltipPopupOpen(false);
   };
 
+  function handleSubmit(request) {
+    request().then(closeAllPopups).catch(console.error);
+  }
+
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     api
@@ -165,51 +169,35 @@ function App() {
   }
 
   function handleCardDelete(card) {
-    api
-      .removeCard(card._id)
-      .then(() => {
-        setCards(state => state.filter(cardData => cardData._id !== card._id));
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    function makeRequest() {
+      return api
+        .removeCard(card._id)
+        .then(setCards(cards.filter(removedCard => card._id !== removedCard._id)));
+    }
+    handleSubmit(makeRequest);
   }
 
   function handleUpdateUser(data) {
-    api
-      .setUserInfo(data)
-      .then(userData => {
-        setCurrentUser(userData);
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    function makeRequest() {
+      return api.setUserInfo(data).then(setCurrentUser);
+    }
+    handleSubmit(makeRequest);
   }
 
   function handleUpdateAvatar(data) {
-    api
-      .setUserAvatar(data)
-      .then(avatarData => {
-        setCurrentUser(avatarData);
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    function makeRequest() {
+      return api.setUserAvatar(data).then(setCurrentUser);
+    }
+    handleSubmit(makeRequest);
   }
 
   function handleAddPlaceSubmit(data) {
-    api
-      .createCard(data)
-      .then(newCard => {
+    function makeRequest() {
+      return api.setInitialCards(data).then(newCard => {
         setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
       });
+    }
+    handleSubmit(makeRequest);
   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
