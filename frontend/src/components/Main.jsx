@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import Card from './Card.jsx';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.jsx';
 
-function Main(props, { cards }) {
+function Main(props) {
   const currentUser = useContext(CurrentUserContext);
 
   return (
@@ -37,7 +37,7 @@ function Main(props, { cards }) {
       </section>
 
       <section className="cards">
-        {cards.map(card => (
+        {props.cards.map(card => (
           <Card
             key={card._id}
             card={card}

@@ -11,7 +11,7 @@ export class Api {
   }
 
   _request(url, options) {
-    return fetch(url, options).then(this.getResponseData);
+    return fetch(url, options).then(this._getResponseData);
   }
 
   getInitialCards() {
@@ -24,7 +24,7 @@ export class Api {
     });
   }
 
-  createCard({ name, link }) {
+  setInitialCards({ name, link }) {
     const token = localStorage.getItem('jwt');
     return this._request(`${this._baseUrl}/cards`, {
       method: 'POST',

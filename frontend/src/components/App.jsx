@@ -164,52 +164,40 @@ function App() {
       });
   }
 
+  function handleSubmit(request) {
+    request().then(closeAllPopups).catch(console.error);
+  }
+
   function handleCardDelete(card) {
-    api
-      .removeCard(card._id)
-      .then(() => {
-        setCards(state => state.filter(cardData => cardData._id !== card._id));
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    function makeRequest() {
+      return api
+        .removeCard(card._id)
+        .then(setCards(cards.filter(removedCard => card._id !== removedCard._id)));
+    }
+    handleSubmit(makeRequest);
   }
 
   function handleUpdateUser(data) {
-    api
-      .setUserInfo(data)
-      .then(userData => {
-        setCurrentUser(userData);
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    function makeRequest() {
+      return api.setUserInfo(data).then(setCurrentUser);
+    }
+    handleSubmit(makeRequest);
   }
 
   function handleUpdateAvatar(data) {
-    api
-      .setUserAvatar(data)
-      .then(avatarData => {
-        setCurrentUser(avatarData);
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    function makeRequest() {
+      return api.setUserAvatar(data).then(setCurrentUser);
+    }
+    handleSubmit(makeRequest);
   }
 
-  function handleAddPlaceSubmit(data) {
-    api
-      .createCard(data)
-      .then(newCard => {
+  function handleAddPlaceSubmit(card) {
+    function makeRequest() {
+      return api.setInitialCards(card).then(newCard => {
         setCards([newCard, ...cards]);
-        closeAllPopups();
-      })
-      .catch(err => {
-        console.log(err);
       });
+    }
+    handleSubmit(makeRequest);
   }
   return (
     <CurrentUserContext.Provider value={currentUser}>
